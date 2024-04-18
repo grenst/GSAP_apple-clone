@@ -17,7 +17,7 @@ const VideoCarousel = () => {
         videoId: 0,
         isLastVideo: false,
         isPlaying: false,
-    })
+    });
 
     const [loadedData, setLoadedData] = useState([]);
 
@@ -25,7 +25,7 @@ const VideoCarousel = () => {
 
     useGSAP(() => {
         gsap.to('#slider', {
-            transform: `translateX(${-100 * videoId})%}`,
+            transform: `translateX(${-100 * videoId}%)`,
             duration: 2,
             ease: 'power2.inOut'
         })
@@ -42,7 +42,7 @@ const VideoCarousel = () => {
                 }));
             },
         });
-    });
+    }, [isEnd, videoId]);
 
     useEffect(() => {
         if(loadedData.length > 3) {
@@ -126,6 +126,9 @@ const VideoCarousel = () => {
             case 'play':
                 setVideo((pre) => ({...pre, isPlaying: !pre.isPlaying }))
                 break;
+            case 'pause':
+                setVideo((pre) => ({...pre, isPlaying: !pre.isPlaying }))
+                break;
             default:
                 return video;
         }
@@ -141,7 +144,11 @@ const VideoCarousel = () => {
                                 <video id="video" 
                                 playsInline={true} 
                                 preload='auto' 
-                                muted 
+                                muted
+                                className={`${
+                                    list.id === 2 && 'translate-x-44'}
+                                    pointer-events-none
+                                `}
                                 ref={(el) => (videoRef.current[i] = el)}
                                 onEnded={() =>
                                     i !== 3
