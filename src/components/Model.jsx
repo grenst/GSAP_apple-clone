@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import { yellowImg } from '../utils';
 import { Canvas } from '@react-three/fiber';
 import { View } from '@react-three/drei';
-import { models } from '../constans';
+import { models, sizes } from '../constans';
 
 const Model = () => {
     const [size, setSize] = useState('small');
@@ -65,12 +65,12 @@ const Model = () => {
                         <Canvas
                             className="w-full h-full"
                             style={{
-                                position: 'fixed',
-                                top: 0,
-                                bottom: 0,
-                                left: 0,
-                                right: 0,
-                                overflow: 'hidden'
+                            position: 'fixed',
+                            top: 0,
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            overflow: 'hidden'
                             }}
                             eventSource={document.getElementById('root')}
                         >
@@ -88,6 +88,18 @@ const Model = () => {
                                     onClick={() => setModel(item)} />
                                 ))}
                             </ul>
+
+                            <button className="size-btn-container">
+                                {sizes.map(({ label, value}) => (
+                                    <span key={label} 
+                                        className="size-btn"
+                                        style={{ backgroundColor: size === value ? 'white' : 'transparent', color: size === value ? 'black' : 'white'}}
+                                        onClick={() => setSize(value)}
+                                    >
+                                        {label}
+                                    </span>
+                                ))}
+                            </button>
                         </div>
                     </div>
                 </div>
