@@ -11,7 +11,7 @@ const ModelView = ({ index, groupRef, gsapType, controlRef, setRotationState, si
     <View
       index={index}
       id={gsapType}
-      className={`w-full h-full ${index === 2} ? 'right-[-100%] : ''`}
+      className={`w-full h-full absolute ${index === 2 ? 'right-[-100%]' : ''}`}
     >
       {/* Ambient light */}
       <ambientLight intensity={0.3} />
