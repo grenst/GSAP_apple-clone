@@ -11,6 +11,7 @@ import { models, sizes } from '../constans';
 
 import { animateWithGsapTimeline } from '../utils/animations';
 
+
 const Model = () => {
     const [size, setSize] = useState('small');
     const [model, setModel] = useState({
@@ -28,8 +29,9 @@ const Model = () => {
     const large = useRef(new THREE.Group());
 
     //rotations
-    const [smallRotation, setSmallRotation] = useState(0);
-    const [largeRotation, setLargeRotation] = useState(0);
+
+    const [smallRotation, setSmallRotation] = useState(3.15);
+    const [largeRotation, setLargeRotation] = useState(3.15);
 
     const tl = gsap.timeline()
 
