@@ -3,8 +3,12 @@ import Hero from './components/Hero';
 import Highlights from './components/Highlights';
 import Model from './components/Model';
 import Features from './components/Features';
+import { useGSAP } from '@gsap/react';
 
 const App = () => {
+  useGSAP()
+
+  
   return (
     <main className="bg-black">
       <Navbar />
