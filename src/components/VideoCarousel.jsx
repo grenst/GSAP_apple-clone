@@ -7,6 +7,16 @@ import { ScrollTrigger } from "gsap/all";
 gsap.registerPlugin(ScrollTrigger);
 
 const VideoCarousel = () => {
+
+    const [activeVideoIndex, setActiveVideoIndex] = useState(null);
+    
+    const handleVideoClick = (index) => {
+        setActiveVideoIndex(index); // VIDEO SELECTOR
+        setVideo((prevVideo) => ({ ...prevVideo, startPlay: true, isPlaying: true, videoId: index })); // Запускаем воспроизведение видео по индексу
+    };
+
+
+
     const videoRef = useRef([]);
     const videoSpanRef = useRef([]);
     const videoDivRef = useRef([]);
@@ -141,26 +151,28 @@ const VideoCarousel = () => {
                     <div key={list.id} id="slider" className="sm:pr-20 pr-10">
                         <div className='video-carousel_container'>
                             <div className="w-full h-full flex-center rounded-3xl overflow-hidden bg-black">
-                                <video id="video" 
-                                playsInline={true} 
-                                preload='auto' 
-                                muted
-                                className={`${
-                                    list.id === 2 && 'translate-x-44'}
-                                    pointer-events-none
-                                `}
-                                ref={(el) => (videoRef.current[i] = el)}
-                                onEnded={() =>
-                                    i !== 3
-                                        ? handleProcess('video-end', i)
-                                        : handleProcess('video-last')                                
-                                }
-                                onPlay={() => {
-                                    setVideo((prevVideo) => ({
-                                        ...prevVideo, isPlaying: true
-                                    }))
-                                }}
-                                onLoadedMetadata={(e) => handleLoadedMetadata(i, e)}
+                                <video
+                                    id="video"
+                                    playsInline={true}
+                                    preload='auto'
+                                    muted
+                                    className={`${
+                                        list.id === 2 && 'translate-x-44'}
+                                        pointer-events-none
+                                    `}
+                                    ref={(el) => (videoRef.current[i] = el)}
+                                    onEnded={() =>
+                                        i !== 3
+                                            ? handleProcess('video-end', i)
+                                            : handleProcess('video-last')                                
+                                    }
+                                    onPlay={() => {
+                                        setVideo((prevVideo) => ({
+                                            ...prevVideo, isPlaying: true
+                                        }))
+                                    }}
+                                    onLoadedMetadata={(e) => handleLoadedMetadata(i, e)}
+                                    onClick={() => handleVideoClick(i)} // Добавляем обработчик клика на видео
                                 >
                                     <source src={list.video} type="video/mp4" />
                                 </video>
@@ -183,8 +195,8 @@ const VideoCarousel = () => {
                             key={i}
                             ref={(el) => (videoDivRef.current[i] = el)}
                             className="mx-2 w-3 h-3 bg-gray-200 rounded-full relative cursor-pointer"
-                            //onClick={() => setVideo({i})}  
-                            >
+                            onClick={() => handleVideoClick(i)} // Добавляем обработчик клика на индикатор видео
+                        >
                             <span className="absolute h-full w-full rounded-full" ref={(el) => (videoSpanRef.current[i] = el)} />
                         </span>
                     ))}
