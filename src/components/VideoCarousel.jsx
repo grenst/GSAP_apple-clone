@@ -9,10 +9,18 @@ gsap.registerPlugin(ScrollTrigger);
 const VideoCarousel = () => {
 
     const [activeVideoIndex, setActiveVideoIndex] = useState(null);
-    
+
     const handleVideoClick = (index) => {
-        setActiveVideoIndex(index); // VIDEO SELECTOR
-        setVideo((prevVideo) => ({ ...prevVideo, startPlay: true, isPlaying: true, videoId: index })); // Запускаем воспроизведение видео по индексу
+        if (index !== activeVideoIndex) {
+            // IF Video is different to active RN
+            if (activeVideoIndex !== null) {
+                // If video is active - pausing it
+                videoRef.current[activeVideoIndex].pause();
+                handleProcess('video-reset')
+            }
+            setActiveVideoIndex(index); // SettingUp new index active video
+            setVideo((prevVideo) => ({ ...prevVideo, startPlay: true, isPlaying: true, videoId: index })); // Starting new video
+        }
     };
 
 
@@ -106,7 +114,7 @@ const VideoCarousel = () => {
                 }
             })
 
-            if(videoId ===0) {
+            if(videoId === 0) {
                 anim.restart();
             }
 
@@ -172,7 +180,7 @@ const VideoCarousel = () => {
                                         }))
                                     }}
                                     onLoadedMetadata={(e) => handleLoadedMetadata(i, e)}
-                                    onClick={() => handleVideoClick(i)} // Добавляем обработчик клика на видео
+                                    onClick={() => handleVideoClick(i)} // managing videos by clicks on video
                                 >
                                     <source src={list.video} type="video/mp4" />
                                 </video>
@@ -189,13 +197,13 @@ const VideoCarousel = () => {
                 ))}
             </div>
             <div className="relative flex-center mt-10">
-                <div className="flex-center py-5 px-7 bg-gray-300 backdrop-blur rounded-full">
+                <div className="flex-center py-9 px-7 bg-gray-300 backdrop-blur rounded-full">
                     {videoRef.current.map((_, i) => (
                         <span
                             key={i}
                             ref={(el) => (videoDivRef.current[i] = el)}
                             className="mx-2 w-3 h-3 bg-gray-200 rounded-full relative cursor-pointer"
-                            onClick={() => handleVideoClick(i)} // Добавляем обработчик клика на индикатор видео
+                            onClick={() => handleVideoClick(i)} // managing videos by clicks on status
                         >
                             <span className="absolute h-full w-full rounded-full" ref={(el) => (videoSpanRef.current[i] = el)} />
                         </span>
